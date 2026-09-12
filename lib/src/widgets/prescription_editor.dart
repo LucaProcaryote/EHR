@@ -114,20 +114,23 @@ class _PrescriptionEditorDialogState extends State<PrescriptionEditorDialog> {
     final medication = _medication;
     if (medication == null || !_canSave) return;
 
-    Navigator.of(context).pop(PrescriptionDraft(
-      medication: medication,
-      doseQuantity: double.tryParse(_doseController.text.replaceAll(',', '.')) ?? 1,
-      doseUnit: _unitController.text.trim(),
-      frequencyPerDay: _frequency,
-      route: _route,
-      isPrn: _isPrn,
-      indication: _indicationController.text.trim().isEmpty
-          ? null
-          : _indicationController.text.trim(),
-      instructions: _instructionsController.text.trim().isEmpty
-          ? null
-          : _instructionsController.text.trim(),
-    ));
+    Navigator.of(context).pop(
+      PrescriptionDraft(
+        medication: medication,
+        doseQuantity:
+            double.tryParse(_doseController.text.replaceAll(',', '.')) ?? 1,
+        doseUnit: _unitController.text.trim(),
+        frequencyPerDay: _frequency,
+        route: _route,
+        isPrn: _isPrn,
+        indication: _indicationController.text.trim().isEmpty
+            ? null
+            : _indicationController.text.trim(),
+        instructions: _instructionsController.text.trim().isEmpty
+            ? null
+            : _instructionsController.text.trim(),
+      ),
+    );
   }
 
   @override
@@ -199,11 +202,11 @@ class _PrescriptionEditorDialogState extends State<PrescriptionEditorDialog> {
                     title: Text(
                       '${_medication!.name.forLanguage(language)} '
                       '${_medication!.strength}',
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    subtitle:
-                        Text(_medication!.form.forLanguage(language)),
+                    subtitle: Text(_medication!.form.forLanguage(language)),
                     trailing: TextButton(
                       onPressed: () => setState(() {
                         _medication = null;
@@ -216,10 +219,7 @@ class _PrescriptionEditorDialogState extends State<PrescriptionEditorDialog> {
 
                   if (_alerts.isNotEmpty) ...<Widget>[
                     Gap.h8,
-                    Text(
-                      l10n.safetyChecks,
-                      style: theme.textTheme.labelLarge,
-                    ),
+                    Text(l10n.safetyChecks, style: theme.textTheme.labelLarge),
                     for (final alert in _alerts)
                       _AlertBox(alert: alert, language: language),
                     if (_hasBlockingAlert)
@@ -253,10 +253,12 @@ class _PrescriptionEditorDialogState extends State<PrescriptionEditorDialog> {
                       Expanded(
                         child: TextFormField(
                           controller: _doseController,
-                          keyboardType:
-                              const TextInputType.numberWithOptions(decimal: true),
-                          decoration:
-                              InputDecoration(labelText: l10n.prescriptionDose),
+                          keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                          decoration: InputDecoration(
+                            labelText: l10n.prescriptionDose,
+                          ),
                           validator: (value) {
                             final parsed = double.tryParse(
                               (value ?? '').replaceAll(',', '.'),
@@ -306,8 +308,9 @@ class _PrescriptionEditorDialogState extends State<PrescriptionEditorDialog> {
                       Expanded(
                         child: DropdownButtonFormField<MedicationRoute>(
                           initialValue: _route,
-                          decoration:
-                              InputDecoration(labelText: l10n.prescriptionRoute),
+                          decoration: InputDecoration(
+                            labelText: l10n.prescriptionRoute,
+                          ),
                           items: <DropdownMenuItem<MedicationRoute>>[
                             for (final route in MedicationRoute.values)
                               DropdownMenuItem<MedicationRoute>(

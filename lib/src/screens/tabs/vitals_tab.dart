@@ -20,10 +20,10 @@ class _VitalsTabState extends State<VitalsTab> {
   _Window _window = _Window.last72h;
 
   DateTime? get _since => switch (_window) {
-        _Window.last24h => DateTime.now().subtract(const Duration(hours: 24)),
-        _Window.last72h => DateTime.now().subtract(const Duration(hours: 72)),
-        _Window.all => null,
-      };
+    _Window.last24h => DateTime.now().subtract(const Duration(hours: 24)),
+    _Window.last72h => DateTime.now().subtract(const Duration(hours: 72)),
+    _Window.all => null,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,8 @@ class _VitalsTabState extends State<VitalsTab> {
               // rather than whatever order the rows happened to arrive in.
               final byType = <VitalSignType, List<Observation>>{};
               for (final observation in observations) {
-                byType.putIfAbsent(observation.type, () => <Observation>[])
+                byType
+                    .putIfAbsent(observation.type, () => <Observation>[])
                     .add(observation);
               }
               final types = VitalSignType.values
@@ -85,7 +86,10 @@ class _VitalsTabState extends State<VitalsTab> {
 
               return LayoutBuilder(
                 builder: (context, constraints) {
-                  final columns = (constraints.maxWidth / 420).floor().clamp(1, 3);
+                  final columns = (constraints.maxWidth / 420).floor().clamp(
+                    1,
+                    3,
+                  );
                   return GridView.builder(
                     padding: const EdgeInsets.fromLTRB(
                       Gap.md,

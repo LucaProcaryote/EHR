@@ -93,8 +93,9 @@ class _PatientFileBody extends StatelessWidget {
                         )
                       : StatusChip(
                           label: data.placement == null
-                              ? encounter.encounterClass.display
-                                  .forLanguage(language)
+                              ? encounter.encounterClass.display.forLanguage(
+                                  language,
+                                )
                               : data.placement!.describe(language),
                           color: HospitalTheme.infoOf(context),
                           icon: Icons.hotel,

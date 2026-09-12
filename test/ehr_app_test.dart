@@ -15,9 +15,7 @@ Future<void> pumpEhr(
   );
   final auth = DemoAuthService();
   await auth.initialize();
-  await auth.signInAs(
-    seedUsers.firstWhere((u) => u.role == role),
-  );
+  await auth.signInAs(seedUsers.firstWhere((u) => u.role == role));
 
   await tester.pumpWidget(
     MiniHospitalApp(
@@ -69,8 +67,9 @@ void main() {
     expect(find.textContaining('Intensive care unit'), findsWidgets);
   });
 
-  testWidgets('shows the sign-in screen when nobody is signed in',
-      (tester) async {
+  testWidgets('shows the sign-in screen when nobody is signed in', (
+    tester,
+  ) async {
     final repository = MemoryHospitalRepository(
       seed: HospitalSeed.build(now: DateTime.utc(2026, 9, 12, 10)),
     );
@@ -114,8 +113,9 @@ void main() {
     expect(find.text('MRN000001'), findsWidgets);
   });
 
-  testWidgets('the interface switches language without a restart',
-      (tester) async {
+  testWidgets('the interface switches language without a restart', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(1600, 1200);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);

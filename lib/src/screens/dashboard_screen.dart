@@ -29,19 +29,24 @@ class DashboardScreen extends StatelessWidget {
           final vitals = await repository.latestVitals(patient.id);
           for (final observation in vitals.values) {
             if (!observation.isAbnormal) continue;
-            abnormal.add(_AbnormalReading(
-              patient: patient,
-              observation: observation,
-              encounter: encounter,
-            ));
+            abnormal.add(
+              _AbnormalReading(
+                patient: patient,
+                observation: observation,
+                encounter: encounter,
+              ),
+            );
           }
         }
 
         // Worst first is not well defined across different measurements, so
         // sort by recency: the newest abnormal reading is the one a clinician
         // has least likely already seen.
-        abnormal.sort((a, b) => b.observation.effectiveDateTime
-            .compareTo(a.observation.effectiveDateTime));
+        abnormal.sort(
+          (a, b) => b.observation.effectiveDateTime.compareTo(
+            a.observation.effectiveDateTime,
+          ),
+        );
 
         final notes = await repository.listNotes();
 
@@ -97,7 +102,10 @@ class DashboardScreen extends StatelessWidget {
                       for (final note in data.recentNotes)
                         ListTile(
                           dense: true,
-                          leading: const Icon(Icons.note_alt_outlined, size: 18),
+                          leading: const Icon(
+                            Icons.note_alt_outlined,
+                            size: 18,
+                          ),
                           title: Text(note.title),
                           subtitle: Text(
                             '${data.patients[note.patientId]?.fullName ?? note.patientId}'
@@ -159,7 +167,7 @@ class _StatRow extends StatelessWidget {
     final occupancy = data.beds.isEmpty
         ? 0.0
         : data.beds.where((b) => b.status == BedStatus.occupied).length /
-            data.beds.length;
+              data.beds.length;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -246,8 +254,9 @@ class _StatTile extends StatelessWidget {
             Gap.h8,
             Text(
               value,
-              style: theme.textTheme.headlineMedium
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),
@@ -280,14 +289,16 @@ class _AbnormalRow extends StatelessWidget {
           Expanded(
             child: Text(
               reading.patient.fullName,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
           // Value, unit and the word "high"/"low" - never colour on its own.
           StatusChip(
-            label: '${observation.formatted} · '
+            label:
+                '${observation.formatted} · '
                 '${observation.interpretationCode == 'H' ? '↑' : '↓'}',
             color: color,
             dense: true,

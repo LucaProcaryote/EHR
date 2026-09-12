@@ -104,26 +104,26 @@ class _PrescriptionsTabState extends State<PrescriptionsTab> {
     );
     if (draft == null) return;
 
-    await repository.savePrescription(Prescription(
-      id: 'rx-${const Uuid().v4()}',
-      patientId: widget.patient.id,
-      encounterId: widget.encounter?.id,
-      medication: draft.medication,
-      doseQuantity: draft.doseQuantity,
-      doseUnit: draft.doseUnit,
-      frequencyPerDay: draft.frequencyPerDay,
-      route: draft.route,
-      startDate: DateTime.now(),
-      prescriber: user?.displayName ?? 'Unknown',
-      status: PrescriptionStatus.active,
-      isPrn: draft.isPrn,
-      indication: draft.indication,
-      instructions: draft.instructions,
-    ));
-
-    messenger.showSnackBar(
-      SnackBar(content: Text(l10n.prescriptionSaved)),
+    await repository.savePrescription(
+      Prescription(
+        id: 'rx-${const Uuid().v4()}',
+        patientId: widget.patient.id,
+        encounterId: widget.encounter?.id,
+        medication: draft.medication,
+        doseQuantity: draft.doseQuantity,
+        doseUnit: draft.doseUnit,
+        frequencyPerDay: draft.frequencyPerDay,
+        route: draft.route,
+        startDate: DateTime.now(),
+        prescriber: user?.displayName ?? 'Unknown',
+        status: PrescriptionStatus.active,
+        isPrn: draft.isPrn,
+        indication: draft.indication,
+        instructions: draft.instructions,
+      ),
     );
+
+    messenger.showSnackBar(SnackBar(content: Text(l10n.prescriptionSaved)));
   }
 }
 
@@ -139,11 +139,11 @@ class _PrescriptionCard extends StatelessWidget {
   final bool canPrescribe;
 
   Color _statusColor(BuildContext context) => switch (prescription.status) {
-        PrescriptionStatus.active => HospitalTheme.successOf(context),
-        PrescriptionStatus.onHold => HospitalTheme.warningOf(context),
-        PrescriptionStatus.cancelled => HospitalTheme.criticalOf(context),
-        _ => Theme.of(context).colorScheme.outline,
-      };
+    PrescriptionStatus.active => HospitalTheme.successOf(context),
+    PrescriptionStatus.onHold => HospitalTheme.warningOf(context),
+    PrescriptionStatus.cancelled => HospitalTheme.criticalOf(context),
+    _ => Theme.of(context).colorScheme.outline,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -176,8 +176,9 @@ class _PrescriptionCard extends StatelessWidget {
                       Text(
                         '${medication.name.forLanguage(language)} '
                         '${medication.strength}',
-                        style: theme.textTheme.titleSmall
-                            ?.copyWith(fontWeight: FontWeight.w700),
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       Text(
                         medication.form.forLanguage(language),
@@ -207,8 +208,9 @@ class _PrescriptionCard extends StatelessWidget {
             Gap.h8,
             Text(
               prescription.dosageText(language),
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
             Gap.h8,
             Wrap(
@@ -242,19 +244,15 @@ class _PrescriptionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   TextButton.icon(
-                    onPressed: () => _changeStatus(
-                      context,
-                      PrescriptionStatus.onHold,
-                    ),
+                    onPressed: () =>
+                        _changeStatus(context, PrescriptionStatus.onHold),
                     icon: const Icon(Icons.pause, size: 16),
                     label: Text(l10n.prescriptionHold),
                   ),
                   Gap.w8,
                   TextButton.icon(
-                    onPressed: () => _changeStatus(
-                      context,
-                      PrescriptionStatus.cancelled,
-                    ),
+                    onPressed: () =>
+                        _changeStatus(context, PrescriptionStatus.cancelled),
                     icon: const Icon(Icons.stop_circle_outlined, size: 16),
                     label: Text(l10n.prescriptionStop),
                   ),
@@ -284,9 +282,9 @@ class _PrescriptionCard extends StatelessWidget {
     BuildContext context,
     PrescriptionStatus status,
   ) async {
-    await context
-        .read<HospitalRepository>()
-        .savePrescription(prescription.copyWith(status: status));
+    await context.read<HospitalRepository>().savePrescription(
+      prescription.copyWith(status: status),
+    );
   }
 }
 
@@ -322,8 +320,10 @@ class _AlertRow extends StatelessWidget {
               children: <Widget>[
                 Text(
                   alert.title.forLanguage(language),
-                  style: theme.textTheme.labelMedium
-                      ?.copyWith(color: color, fontWeight: FontWeight.w700),
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 Text(
                   alert.detail.forLanguage(language),

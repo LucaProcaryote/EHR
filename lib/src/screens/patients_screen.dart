@@ -143,8 +143,9 @@ class _PatientList extends StatelessWidget {
           child: RepositoryBuilder<_PatientListData>(
             query: (repository) async {
               final patients = await repository.listPatients(query: query);
-              final encounters =
-                  await repository.listEncounters(activeOnly: true);
+              final encounters = await repository.listEncounters(
+                activeOnly: true,
+              );
               final byPatient = <String, Encounter>{
                 for (final encounter in encounters)
                   encounter.patientId: encounter,
@@ -158,8 +159,8 @@ class _PatientList extends StatelessWidget {
               return _PatientListData(
                 patients: admittedOnly
                     ? patients
-                        .where((p) => byPatient.containsKey(p.id))
-                        .toList(growable: false)
+                          .where((p) => byPatient.containsKey(p.id))
+                          .toList(growable: false)
                     : patients,
                 encounters: byPatient,
                 wards: wards,
@@ -263,8 +264,9 @@ class _PatientTile extends StatelessWidget {
           Expanded(
             child: Text(
               patient.listName,
-              style: theme.textTheme.bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),

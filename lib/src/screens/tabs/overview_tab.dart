@@ -4,7 +4,11 @@ import 'package:hospital_core/hospital_core.dart';
 /// Administrative and clinical summary: who the patient is, where they are,
 /// and their most recent measurements at a glance.
 class OverviewTab extends StatelessWidget {
-  const OverviewTab({super.key, required this.patient, required this.encounter});
+  const OverviewTab({
+    super.key,
+    required this.patient,
+    required this.encounter,
+  });
 
   final Patient patient;
   final Encounter? encounter;
@@ -36,7 +40,8 @@ class OverviewTab extends StatelessWidget {
               ),
               LabeledValue(
                 label: l10n.patientDateOfBirth,
-                value: '${Formats.date(context, patient.birthDate)} '
+                value:
+                    '${Formats.date(context, patient.birthDate)} '
                     '(${l10n.patientAgeYears(patient.ageAt())})',
               ),
               LabeledValue(
@@ -49,15 +54,22 @@ class OverviewTab extends StatelessWidget {
               ),
               LabeledValue(
                 label: l10n.patientPreferredLanguage,
-                value: SupportedLocales.nativeNames[patient.preferredLanguage] ??
+                value:
+                    SupportedLocales.nativeNames[patient.preferredLanguage] ??
                     patient.preferredLanguage,
               ),
               LabeledValue(
                 label: l10n.patientAddress,
                 value: patient.address.oneLine,
               ),
-              LabeledValue(label: l10n.patientPhone, value: patient.phone ?? ''),
-              LabeledValue(label: l10n.patientEmail, value: patient.email ?? ''),
+              LabeledValue(
+                label: l10n.patientPhone,
+                value: patient.phone ?? '',
+              ),
+              LabeledValue(
+                label: l10n.patientEmail,
+                value: patient.email ?? '',
+              ),
               LabeledValue(
                 label: l10n.patientGeneralPractitioner,
                 value: patient.generalPractitioner ?? '',
@@ -94,7 +106,9 @@ class _EncounterCard extends StatelessWidget {
       );
     }
 
-    return RepositoryBuilder<({BedPlacement? placement, List<Movement> movements})>(
+    return RepositoryBuilder<
+      ({BedPlacement? placement, List<Movement> movements})
+    >(
       query: (repository) async => (
         placement: current.bedId == null
             ? null
@@ -130,7 +144,8 @@ class _EncounterCard extends StatelessWidget {
                 ),
                 LabeledValue(
                   label: l10n.locationBed,
-                  value: data.placement?.describe(language) ??
+                  value:
+                      data.placement?.describe(language) ??
                       l10n.locationNotPlaced,
                 ),
                 LabeledValue(
@@ -190,8 +205,9 @@ class _MovementRow extends StatelessWidget {
                 Text(
                   '${movement.type.display.forLanguage(language)} '
                   '(${movement.type.hl7EventCode})',
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 if (movement.note != null)
                   Text(
@@ -243,8 +259,7 @@ class _LatestVitalsCard extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               // Aim for tiles around 170px wide, at least two per row.
-              final columns =
-                  (constraints.maxWidth / 180).floor().clamp(2, 5);
+              final columns = (constraints.maxWidth / 180).floor().clamp(2, 5);
               return GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

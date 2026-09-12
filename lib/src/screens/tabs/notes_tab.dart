@@ -160,8 +160,9 @@ class _NoteCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     note.title,
-                    style: theme.textTheme.titleSmall
-                        ?.copyWith(fontWeight: FontWeight.w700),
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 StatusChip(
@@ -204,7 +205,8 @@ class _NoteCard extends StatelessWidget {
                           note.language,
                     ),
                     child: StatusChip(
-                      label: SupportedLocales.shortNames[note.language] ??
+                      label:
+                          SupportedLocales.shortNames[note.language] ??
                           note.language.toUpperCase(),
                       color: theme.colorScheme.tertiary,
                       icon: Icons.translate,
@@ -249,10 +251,12 @@ class _NoteEditorDialog extends StatefulWidget {
 
 class _NoteEditorDialogState extends State<_NoteEditorDialog> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _titleController =
-      TextEditingController(text: widget.existing?.title ?? '');
-  late final TextEditingController _bodyController =
-      TextEditingController(text: widget.existing?.body ?? '');
+  late final TextEditingController _titleController = TextEditingController(
+    text: widget.existing?.title ?? '',
+  );
+  late final TextEditingController _bodyController = TextEditingController(
+    text: widget.existing?.body ?? '',
+  );
   late NoteType _type = widget.existing?.type ?? NoteType.progress;
   late String _language = widget.existing?.language ?? widget.language;
   bool _sign = false;
@@ -329,8 +333,9 @@ class _NoteEditorDialogState extends State<_NoteEditorDialog> {
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         initialValue: _language,
-                        decoration:
-                            InputDecoration(labelText: l10n.labelLanguage),
+                        decoration: InputDecoration(
+                          labelText: l10n.labelLanguage,
+                        ),
                         items: <DropdownMenuItem<String>>[
                           for (final locale in SupportedLocales.all)
                             DropdownMenuItem<String>(
@@ -342,8 +347,9 @@ class _NoteEditorDialogState extends State<_NoteEditorDialog> {
                         ],
                         onChanged: widget.existing != null
                             ? null
-                            : (value) =>
-                                setState(() => _language = value ?? _language),
+                            : (value) => setState(
+                                () => _language = value ?? _language,
+                              ),
                       ),
                     ),
                   ],
