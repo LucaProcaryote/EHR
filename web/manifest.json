@@ -1,11 +1,11 @@
 {
-    "name": "ehr_app",
-    "short_name": "ehr_app",
+    "name": "Mini-Hospital EHR",
+    "short_name": "EHR",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Mini-Hospital 2026 - Electronic Health Record",
+    "background_color": "#004F52",
+    "theme_color": "#00696D",
+    "description": "Mini-Hospital 2026 - Electronic Health Record - patients, prescriptions, observations",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
