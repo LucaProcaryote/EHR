@@ -30,6 +30,7 @@ export 'src/clinical/safety_checks.dart';
 export 'src/fhir/fhir_client.dart';
 
 // Integration engine
+export 'src/integration/event_publisher.dart';
 export 'src/integration/flow_engine.dart';
 export 'src/integration/json_path.dart';
 export 'src/integration/transforms.dart';

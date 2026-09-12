@@ -3,6 +3,10 @@
 Part of **Mini-Hospital 2026**, a teaching hospital built for the course on
 hospital, e-health and connected-medical-device informatics.
 
+> Start here if you are new: the
+> [course guide](https://github.com/LucaProcaryote/Dev_Central/blob/main/COURSE.md)
+> explains how the six repositories fit together and contains the lab exercises.
+
 This application is the clinical record: the patient fiche, the prescriptions
 and the notes and observations. It is a Flutter application that runs as a web
 app and on Android and iOS from the same code.
