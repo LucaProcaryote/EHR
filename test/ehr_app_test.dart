@@ -5,13 +5,20 @@ import 'package:hospital_core/hospital_core.dart';
 
 /// Builds the application against a fixed in-memory dataset, already signed in
 /// as the given role, so each test starts on the screen it is about.
+///
+/// [seedNow] is the instant the dataset is built around. It is fixed by
+/// default, because ages and lengths of stay have to be the same on every
+/// run. A screen that filters on a window relative to the real clock needs
+/// the opposite - data that is genuinely recent - and passes
+/// `DateTime.now()`.
 Future<void> pumpEhr(
   WidgetTester tester, {
   UserRole role = UserRole.physician,
   Locale locale = const Locale('en'),
+  DateTime? seedNow,
 }) async {
   final repository = MemoryHospitalRepository(
-    seed: HospitalSeed.build(now: DateTime.utc(2026, 9, 12, 10)),
+    seed: HospitalSeed.build(now: seedNow ?? DateTime.utc(2026, 9, 12, 10)),
   );
   final auth = DemoAuthService();
   await auth.initialize();
@@ -174,7 +181,12 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
 
-    await pumpEhr(tester);
+    // Seeded around the real clock, not the fixed date the other tests use.
+    // The tab opens on "last 72 hours", measured against DateTime.now(), so a
+    // dataset pinned to a date in the past empties the screen the moment that
+    // date is three days old - and the test starts failing on a Tuesday with
+    // nothing having changed.
+    await pumpEhr(tester, seedNow: DateTime.now());
     await openPatient(tester, 'Van Damme');
 
     await tester.tap(find.text('Vital signs'));
